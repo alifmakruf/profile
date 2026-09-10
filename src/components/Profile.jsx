@@ -118,7 +118,7 @@ export default function Profile() {
         <div className="profile-photo-wrap" ref={photoWrapRef}>
           {!photoError ? (
             <img
-              src="/profile.jpg"
+              src="/aliff.png"
               alt={NAME}
               className="profile-photo"
               onError={() => setPhotoError(true)}

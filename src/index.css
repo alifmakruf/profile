@@ -84,11 +84,12 @@ body {
   margin: -105px 0 0 -105px;
   border-radius: 50%;
   background: radial-gradient(circle at center,
-      rgba(254, 240, 138, 0.95) 0%,
-      rgba(251, 191, 36, 0.6) 40%,
-      rgba(245, 158, 11, 0.2) 70%,
-      rgba(245, 158, 11, 0) 100%);
-  filter: blur(10px);
+      rgba(255, 255, 255, 0.95) 60%,
+      rgba(216, 216, 216, 0.6) 40%
+      /* rgba(245, 158, 11, 0.2) 70%,
+      rgba(245, 158, 11, 0) 100%); */
+    );
+  filter: blur(1px);
 }
 
 .backdrop-svg {
@@ -418,8 +419,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background:
-    radial-gradient(ellipse at 20% 0%, rgba(6, 9, 15, 0.55) 82%, transparent 45%),
+  background: radial-gradient(ellipse at 20% 0%, rgba(6, 9, 15, 0.55) 82%, transparent 45%),
     linear-gradient(180deg, #05070c 0%, #090c14 45%, #0c1119 100%);
   overflow: hidden;
   cursor: none;

@@ -35,9 +35,9 @@ export default function App() {
           <span className="hero-line" aria-hidden="true" />
           <h1 className="hero-headline">Let the sword bring enlightenment.</h1>
           <p className="hero-tagline">
-            Every creation is a stroke of the blade
+            A blade reveals the Dao. Every strike brings enlightenment
             <br />
-            shaped with purpose, refined through discipline, and forged to leave a mark
+            -
             <span className="hero-cursor" aria-hidden="true" />
           </p>
         </div>
