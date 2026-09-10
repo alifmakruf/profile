@@ -15,15 +15,29 @@ export default function App() {
   const pointerRef = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
-    const onMove = (e) => {
-      if (cursorRef.current) {
-        cursorRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+    // Terima koordinat dari mouse maupun sentuhan jari, supaya pedang &
+    // efek kursor tetap merespons interaksi di perangkat layar sentuh (HP/tablet).
+    const getXY = (e) => {
+      if (e.touches && e.touches.length) {
+        return { x: e.touches[0].clientX, y: e.touches[0].clientY };
       }
-      pointerRef.current.x = (e.clientX / window.innerWidth) * 2 - 1;
-      pointerRef.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
+      return { x: e.clientX, y: e.clientY };
+    };
+
+    const onMove = (e) => {
+      const { x, y } = getXY(e);
+      if (cursorRef.current) {
+        cursorRef.current.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      }
+      pointerRef.current.x = (x / window.innerWidth) * 2 - 1;
+      pointerRef.current.y = -(y / window.innerHeight) * 2 + 1;
     };
     window.addEventListener("mousemove", onMove);
-    return () => window.removeEventListener("mousemove", onMove);
+    window.addEventListener("touchmove", onMove, { passive: true });
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("touchmove", onMove);
+    };
   }, []);
 
   return (
@@ -34,12 +48,12 @@ export default function App() {
         <div className="hero-text">
           <span className="hero-line" aria-hidden="true" />
           <h1 className="hero-headline">Let the sword bring enlightenment.</h1>
-          <p className="hero-tagline">
+          {/* <p className="hero-tagline">
             A blade reveals the Dao. Every strike brings enlightenment
             <br />
             -
             <span className="hero-cursor" aria-hidden="true" />
-          </p>
+          </p> */}
         </div>
 
         <div className="hud">

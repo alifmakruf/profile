@@ -78,9 +78,17 @@ export default function Profile() {
     let raf = null;
     let tx = 0, ty = 0, cx = 0, cy = 0;
 
+    const getXY = (e) => {
+      if (e.touches && e.touches.length) {
+        return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      }
+      return { x: e.clientX, y: e.clientY };
+    };
+
     const onMove = (e) => {
-      tx = e.clientX / window.innerWidth - 0.5;
-      ty = e.clientY / window.innerHeight - 0.5;
+      const { x, y } = getXY(e);
+      tx = x / window.innerWidth - 0.5;
+      ty = y / window.innerHeight - 0.5;
     };
 
     const tick = () => {
@@ -95,9 +103,11 @@ export default function Profile() {
     };
 
     window.addEventListener("mousemove", onMove);
+    window.addEventListener("touchmove", onMove, { passive: true });
     raf = requestAnimationFrame(tick);
     return () => {
       window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("touchmove", onMove);
       if (raf) cancelAnimationFrame(raf);
     };
   }, [inView]);

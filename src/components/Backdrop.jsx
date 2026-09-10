@@ -19,9 +19,19 @@ export default function Backdrop({ torchRef }) {
     let cx = 0;
     let cy = 0;
 
+    // Ambil koordinat baik dari event mouse maupun sentuhan (touch), supaya
+    // parallax tetap hidup di HP/tablet, bukan cuma di desktop.
+    const getXY = (e) => {
+      if (e.touches && e.touches.length) {
+        return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      }
+      return { x: e.clientX, y: e.clientY };
+    };
+
     const onMove = (e) => {
-      tx = e.clientX / window.innerWidth - 0.5;
-      ty = e.clientY / window.innerHeight - 0.5;
+      const { x, y } = getXY(e);
+      tx = x / window.innerWidth - 0.5;
+      ty = y / window.innerHeight - 0.5;
     };
 
     const tick = () => {
@@ -40,9 +50,11 @@ export default function Backdrop({ torchRef }) {
     };
 
     window.addEventListener("mousemove", onMove);
+    window.addEventListener("touchmove", onMove, { passive: true });
     raf = requestAnimationFrame(tick);
     return () => {
       window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("touchmove", onMove);
       if (raf) cancelAnimationFrame(raf);
     };
   }, []);
@@ -53,13 +65,13 @@ export default function Backdrop({ torchRef }) {
       <div className="sky dark-night-sky" />
 
       {/* 2. Bulan Emas Lembut di Malam Hari (Misty Night Moon) */}
-      <div className="parallax-layer sun-layer" ref={sunRef}>
+      {/* <div className="parallax-layer sun-layer" ref={sunRef}>
         <div className="misty-moon" />
-      </div>
+      </div> */}
 
       {/* 3. Awan Kabut Malam dengan Garis Emas (Dark Mist & Gold Lines) */}
       <div className="parallax-layer clouds-layer" ref={cloudRef}>
-        <svg viewBox="0 0 1600 700" preserveAspectRatio="none" className="backdrop-svg">
+        <svg viewBox="0 0 1600 700" preserveAspectRatio="xMidYMax slice" className="backdrop-svg">
           <defs>
             <linearGradient id="darkCloudGrad" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor="#1e2436" stopOpacity="0.75" />
@@ -91,7 +103,7 @@ export default function Backdrop({ torchRef }) {
 
       {/* 4. Pegunungan Jauh Gelap & Puncak Emas Amber (Far Dark Mountains) */}
       <div className="parallax-layer far-mountains" ref={farRef}>
-        <svg viewBox="0 0 1600 700" preserveAspectRatio="none" className="backdrop-svg">
+        <svg viewBox="0 0 1600 700" preserveAspectRatio="xMidYMax slice" className="backdrop-svg">
           <defs>
             <linearGradient id="darkGoldMtnGrad" x1="0" y1="0" x2="1" y2="1">
               <stop offset="0%" stopColor="#664627" />
@@ -146,7 +158,7 @@ export default function Backdrop({ torchRef }) {
 
       {/* 5. Pegunungan Tengah Gelap Slate-Teal (Midground Dark Mountains) */}
       <div className="parallax-layer mid-mountains" ref={midRef}>
-        <svg viewBox="0 0 1600 700" preserveAspectRatio="none" className="backdrop-svg">
+        <svg viewBox="0 0 1600 700" preserveAspectRatio="xMidYMax slice" className="backdrop-svg">
           <defs>
             <linearGradient id="midDarkSlateGrad" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor="#1c2d3a" />
@@ -205,7 +217,7 @@ export default function Backdrop({ torchRef }) {
 
       {/* 6. Pegunungan Depan Indigo Gelap dengan Garis Emas Menyala (Foreground Kinpaku Lines) */}
       <div className="parallax-layer near-mountains" ref={nearRef}>
-        <svg viewBox="0 0 1600 700" preserveAspectRatio="none" className="backdrop-svg">
+        <svg viewBox="0 0 1600 700" preserveAspectRatio="xMidYMax slice" className="backdrop-svg">
           <defs>
             <linearGradient id="nearDarkIndigoGrad" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor="#131e28" />
