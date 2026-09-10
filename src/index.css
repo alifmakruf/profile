@@ -1,0 +1,747 @@
+@import url("https://fonts.googleapis.com/css2?family=Zen+Antique&family=Sawarabi+Mincho&family=Noto+Sans+JP:wght@400;500;600&family=Cinzel:wght@600;700;900&family=JetBrains+Mono:wght@400;500&display=swap");
+
+:root {
+  --ink: #f1f5f9;
+  --ink-soft: #cbd5e1;
+  --paper: #090c14;
+  --gold-accent: #fbbf24;
+  --gold-light: #fde047;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Noto Sans JP", "Sawarabi Mincho", sans-serif;
+  background: #090c14;
+  cursor: none;
+  overflow-x: hidden;
+}
+
+.stage {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Gradient jembatan yang menutupi sambungan hero -> profile, menyamarkan
+   potongan tegas antara tekstur gunung (hero) dan gradient flat (profile) */
+.section-seam {
+  position: relative;
+  height: 240px;
+  margin-top: -240px;
+  pointer-events: none;
+  background: linear-gradient(180deg,
+      rgba(5, 7, 10, 0) 0%,
+      rgba(5, 7, 10, 0.5) 32%,
+      rgba(4, 6, 9, 0.94) 58%,
+      rgba(4, 6, 9, 0.55) 82%,
+      rgba(4, 6, 9, 0) 100%);
+}
+
+/* ---------- 2D backdrop layers (Oriental Night Landscape Parallax) ---------- */
+
+.dark-night-sky {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(180deg,
+      #060810 0%,
+      #0e1422 35%,
+      #161e30 65%,
+      #201b26 100%);
+}
+
+.parallax-layer {
+  position: absolute;
+  inset: -5% -5%;
+  width: 110%;
+  height: 110%;
+  will-change: transform;
+  pointer-events: none;
+}
+
+.misty-moon {
+  position: absolute;
+  left: 23%;
+  top: 20%;
+  width: 210px;
+  height: 210px;
+  margin: -105px 0 0 -105px;
+  border-radius: 50%;
+  background: radial-gradient(circle at center,
+      rgba(254, 240, 138, 0.95) 0%,
+      rgba(251, 191, 36, 0.6) 40%,
+      rgba(245, 158, 11, 0.2) 70%,
+      rgba(245, 158, 11, 0) 100%);
+  filter: blur(10px);
+}
+
+.backdrop-svg {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.dark-valley-mist {
+  position: absolute;
+  left: -10%;
+  top: 54%;
+  width: 120%;
+  height: 190px;
+  background: linear-gradient(to right,
+      transparent,
+      rgba(146, 137, 84, 0.45) 20%,
+      rgba(15, 23, 38, 0.75) 50%,
+      rgba(15, 23, 38, 0.45) 80%,
+      transparent);
+  filter: blur(14px);
+  will-change: transform;
+}
+
+.grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+.night-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 32%, rgba(4, 6, 10, 0.8) 100%);
+}
+
+/* ---------- torch glow: pendaran lembut cahaya emas latar belakang dari pedang ---------- */
+
+.torch-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 240px;
+  height: 240px;
+  margin: -120px 0 0 -120px;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+      rgba(251, 191, 36, 0.32) 0%,
+      rgba(245, 158, 11, 0.15) 35%,
+      rgba(217, 119, 6, 0.03) 60%,
+      rgba(180, 83, 9, 0) 78%);
+  filter: blur(14px);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  will-change: transform;
+  z-index: 1;
+}
+
+/* ---------- 3D canvas sits above the backdrop, transparent ---------- */
+
+.sword-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* ---------- hero text: headline & tagline, top-left, LoL-esque inscriptional type ---------- */
+
+.hero-text {
+  position: absolute;
+  top: 64px;
+  left: 56px;
+  z-index: 1;
+  max-width: 420px;
+  text-align: left;
+  pointer-events: none;
+  opacity: 0;
+  animation: heroReveal 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+}
+
+/* Aksen garis emas yang "menggambar" dirinya sendiri, seperti sabetan bilah */
+.hero-line {
+  display: block;
+  width: 0;
+  height: 2px;
+  margin-bottom: 20px;
+  background: linear-gradient(90deg, var(--gold-light), rgba(251, 191, 36, 0));
+  box-shadow: 0 0 10px rgba(251, 191, 36, 0.75);
+  animation: lineGrow 1s cubic-bezier(0.65, 0, 0.35, 1) 0.6s forwards;
+}
+
+@keyframes lineGrow {
+  to {
+    width: 92px;
+  }
+}
+
+.hero-headline {
+  font-family: "Cinzel", "Zen Antique", serif;
+  font-weight: 700;
+  font-size: clamp(19px, 2.6vw, 30px);
+  letter-spacing: 0.1em;
+  line-height: 1.4;
+  margin: 0 0 18px;
+  background: linear-gradient(100deg,
+      #92400e 0%,
+      #fbbf24 22%,
+      #fef3c7 40%,
+      #fde047 55%,
+      #b45309 75%,
+      #fbbf24 100%);
+  background-size: 260% auto;
+  background-position: 100% center;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 4px 18px rgba(0, 0, 0, 0.85));
+  animation: shine 7s linear 1.6s infinite;
+}
+
+@keyframes shine {
+  to {
+    background-position: -160% center;
+  }
+}
+
+.hero-tagline {
+  font-family: "JetBrains Mono", "Space Mono", monospace;
+  font-size: clamp(11px, 1.05vw, 13px);
+  font-weight: 400;
+  line-height: 1.9;
+  letter-spacing: 0.01em;
+  color: var(--ink-soft);
+  opacity: 0.82;
+  margin: 0;
+  padding-left: 16px;
+  border-left: 1px solid rgba(251, 191, 36, 0.4);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.75);
+}
+
+.hero-cursor {
+  display: inline-block;
+  width: 7px;
+  height: 1em;
+  margin-left: 3px;
+  background: var(--gold-accent);
+  vertical-align: text-bottom;
+  box-shadow: 0 0 6px rgba(251, 191, 36, 0.8);
+  animation: blink 1.05s steps(1, end) infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes heroReveal {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-text {
+    top: 34px;
+    left: 24px;
+    max-width: 76vw;
+  }
+
+  .hero-line {
+    margin-bottom: 14px;
+  }
+
+  .hero-tagline {
+    padding-left: 12px;
+  }
+}
+
+/* ---------- HUD ---------- */
+
+.hud {
+  position: absolute;
+  left: 34px;
+  bottom: 30px;
+  z-index: 3;
+  color: var(--ink);
+  pointer-events: none;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.75);
+}
+
+.hud .kanji {
+  font-family: "Zen Antique", serif;
+  font-size: 30px;
+  letter-spacing: 0.16em;
+  color: var(--gold-accent);
+  margin: 0 0 4px;
+  text-shadow: 0 0 16px rgba(251, 191, 36, 0.6);
+}
+
+.hud .desc {
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  color: var(--ink-soft);
+  margin: 0;
+  max-width: 30ch;
+  font-weight: 500;
+}
+
+.mark {
+  position: absolute;
+  right: 34px;
+  top: 28px;
+  color: rgba(203, 213, 225, 0.6);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  pointer-events: none;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+  font-weight: 600;
+}
+
+/* ---------- scroll cue: bridges hero section into the profile section below ---------- */
+
+.scroll-cue {
+  position: absolute;
+  left: 50%;
+  bottom: 34px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  transform: translateX(-50%);
+  color: rgba(203, 213, 225, 0.75);
+  text-decoration: none;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+  cursor: none;
+  animation: cueFade 1s ease 1.4s both;
+}
+
+.scroll-cue .scroll-chevron {
+  width: 14px;
+  height: 14px;
+  border-right: 1.5px solid var(--gold-accent);
+  border-bottom: 1.5px solid var(--gold-accent);
+  transform: rotate(45deg);
+  animation: cueBounce 1.8s ease-in-out infinite;
+  filter: drop-shadow(0 0 6px rgba(251, 191, 36, 0.7));
+}
+
+@keyframes cueBounce {
+
+  0%,
+  100% {
+    transform: rotate(45deg) translate(0, 0);
+    opacity: 0.55;
+  }
+
+  50% {
+    transform: rotate(45deg) translate(4px, 4px);
+    opacity: 1;
+  }
+}
+
+@keyframes cueFade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* ---------- custom cursor ember ---------- */
+
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  border-radius: 50%;
+  background: #fbbf24;
+  box-shadow: 0 0 12px 3px rgba(251, 191, 36, 0.85);
+  pointer-events: none;
+  z-index: 20;
+  will-change: transform;
+}
+
+@media (max-width: 640px) {
+  .hud .kanji {
+    font-size: 22px;
+  }
+
+  .hud .desc {
+    max-width: 22ch;
+    font-size: 12px;
+  }
+}
+
+/* =====================================================================
+   SECTION 2 — PROFILE / ABOUT ("data diri")
+   ===================================================================== */
+
+.profile-section {
+  position: relative;
+  min-height: 100vh;
+  padding: 130px 8vw 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(6, 9, 15, 0.55) 82%, transparent 45%),
+    linear-gradient(180deg, #05070c 0%, #090c14 45%, #0c1119 100%);
+  overflow: hidden;
+  cursor: none;
+}
+
+.profile-section .grain {
+  position: absolute;
+}
+
+.profile-topline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 96px;
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform;
+}
+
+/* Glow lembut yang bergeser mengikuti kursor, versi "torch-glow" untuk
+   section profile — lebih lebar & redup karena berperan sebagai ambience,
+   bukan sorotan langsung seperti di hero */
+.profile-glow {
+  position: absolute;
+  top: 50%;
+  left: 79%;
+  width: 420px;
+  height: 420px;
+  margin: -210px 0 0 -210px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(251, 191, 36, 0.14) 0%, rgba(251, 191, 36, 0.05) 45%, transparent 75%);
+  filter: blur(20px);
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform;
+}
+
+.profile-dust {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform;
+}
+
+.dust-mote {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(253, 224, 71, 0.9) 0%, rgba(251, 191, 36, 0.25) 60%, transparent 100%);
+  animation-name: dustDrift;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  opacity: 0;
+}
+
+@keyframes dustDrift {
+  0% {
+    transform: translateY(0) scale(0.8);
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 0.85;
+  }
+
+  50% {
+    transform: translateY(-18px) scale(1);
+    opacity: 0.5;
+  }
+
+  85% {
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: translateY(-36px) scale(0.85);
+    opacity: 0;
+  }
+}
+
+/* Ornamen pembatas antar-section, senada dengan tema kinpaku emas */
+.profile-divider {
+  position: absolute;
+  top: 54px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: var(--gold-accent);
+  font-family: "Zen Antique", serif;
+  font-size: 20px;
+  letter-spacing: 0.1em;
+  opacity: 0.9;
+}
+
+.profile-divider::before,
+.profile-divider::after {
+  content: "";
+  width: 54px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.65));
+}
+
+.profile-divider::after {
+  background: linear-gradient(90deg, rgba(251, 191, 36, 0.65), transparent);
+}
+
+.profile-frame {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 68px;
+  max-width: 980px;
+  width: 100%;
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+  perspective: 900px;
+}
+
+.profile-frame.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --- photo, framed like a portrait plaque with corner brackets --- */
+
+.profile-photo-wrap {
+  position: relative;
+  flex: 0 0 auto;
+  width: 216px;
+  height: 216px;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+
+.profile-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 4px;
+  filter: grayscale(0.1) contrast(1.06) saturate(0.95);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65);
+  background: linear-gradient(160deg, #1c2230, #0a0e16);
+}
+
+.profile-photo-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(160deg, #1c2230, #0a0e16);
+  border: 1px solid rgba(251, 191, 36, 0.25);
+}
+
+.profile-photo-placeholder span {
+  font-family: "Cinzel", serif;
+  font-weight: 700;
+  font-size: 64px;
+  color: var(--gold-accent);
+  opacity: 0.8;
+  text-shadow: 0 0 24px rgba(251, 191, 36, 0.35);
+}
+
+.profile-photo-corner {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--gold-accent);
+  opacity: 0.9;
+  filter: drop-shadow(0 0 6px rgba(251, 191, 36, 0.5));
+}
+
+.profile-photo-corner.tl {
+  top: -9px;
+  left: -9px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.profile-photo-corner.br {
+  bottom: -9px;
+  right: -9px;
+  border-left: none;
+  border-top: none;
+}
+
+/* --- text content --- */
+
+.profile-info {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.profile-kicker {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.22em;
+  color: var(--gold-accent);
+  opacity: 0.85;
+  margin: 0 0 12px;
+}
+
+.profile-name {
+  font-family: "Cinzel", "Zen Antique", serif;
+  font-weight: 700;
+  font-size: clamp(28px, 3.6vw, 42px);
+  letter-spacing: 0.05em;
+  color: var(--gold-light);
+  margin: 0 0 12px;
+  text-shadow: 0 0 26px rgba(251, 191, 36, 0.3);
+}
+
+.profile-motto {
+  font-family: "Zen Antique", serif;
+  font-style: italic;
+  font-size: clamp(14px, 1.3vw, 16.5px);
+  color: var(--ink-soft);
+  margin: 0 0 20px;
+  padding-left: 16px;
+  border-left: 2px solid rgba(251, 191, 36, 0.5);
+}
+
+.profile-bio {
+  font-size: 14px;
+  line-height: 1.9;
+  color: var(--ink-soft);
+  opacity: 0.9;
+  max-width: 54ch;
+  margin: 0 0 32px;
+}
+
+.profile-block {
+  margin-bottom: 26px;
+}
+
+.profile-block:last-child {
+  margin-bottom: 0;
+}
+
+.profile-block-title {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold-accent);
+  opacity: 0.9;
+  margin: 0 0 12px;
+}
+
+.profile-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 28px;
+}
+
+.profile-tags {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.profile-tags li {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 0.01em;
+  padding: 6px 12px;
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  border-radius: 2px;
+  color: var(--ink-soft);
+  background: rgba(251, 191, 36, 0.04);
+  transition: border-color 0.25s ease, background-color 0.25s ease, color 0.25s ease, transform 0.25s ease;
+}
+
+.profile-tags li:hover {
+  border-color: rgba(251, 191, 36, 0.8);
+  background: rgba(251, 191, 36, 0.1);
+  color: var(--gold-light);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 780px) {
+  .profile-section {
+    padding: 110px 7vw 100px;
+  }
+
+  .profile-frame {
+    flex-direction: column;
+    text-align: center;
+    gap: 34px;
+  }
+
+  .profile-photo-wrap {
+    width: 168px;
+    height: 168px;
+  }
+
+  .profile-motto {
+    border-left: none;
+    padding-left: 0;
+    border-top: 2px solid rgba(251, 191, 36, 0.5);
+    padding-top: 10px;
+  }
+
+  .profile-bio {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .profile-columns {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .profile-tags {
+    justify-content: center;
+  }
+}
