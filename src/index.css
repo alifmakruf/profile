@@ -276,7 +276,7 @@ body {
 
 @media (max-width: 640px) {
   .hero-text {
-    top: 28px;
+    top: 30%;
     max-width: 90vw;
     padding: 0 16px;
   }
@@ -292,7 +292,7 @@ body {
 
 @media (max-width: 400px) {
   .hero-text {
-    top: 20px;
+    top: 30%;
   }
 }
 

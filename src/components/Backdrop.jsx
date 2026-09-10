@@ -64,11 +64,6 @@ export default function Backdrop({ torchRef }) {
       {/* 1. Langit Malam / Senja Gelap (Dark Twilight Sky) */}
       <div className="sky dark-night-sky" />
 
-      {/* 2. Bulan Emas Lembut di Malam Hari (Misty Night Moon) */}
-      {/* <div className="parallax-layer sun-layer" ref={sunRef}>
-        <div className="misty-moon" />
-      </div> */}
-
       {/* 3. Awan Kabut Malam dengan Garis Emas (Dark Mist & Gold Lines) */}
       <div className="parallax-layer clouds-layer" ref={cloudRef}>
         <svg viewBox="0 0 1600 700" preserveAspectRatio="xMidYMax slice" className="backdrop-svg">

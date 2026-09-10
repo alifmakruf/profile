@@ -48,12 +48,7 @@ export default function App() {
         <div className="hero-text">
           <span className="hero-line" aria-hidden="true" />
           <h1 className="hero-headline">Let the sword bring enlightenment.</h1>
-          {/* <p className="hero-tagline">
-            A blade reveals the Dao. Every strike brings enlightenment
-            <br />
-            -
-            <span className="hero-cursor" aria-hidden="true" />
-          </p> */}
+
         </div>
 
         <div className="hud">
