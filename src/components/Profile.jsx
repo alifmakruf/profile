@@ -15,7 +15,7 @@ import ProfileBackdrop from "./ProfileBackdrop";
  */
 
 const NAME = "Mohammad Firman Alif Ma'ruf";
-const MOTTO = "Shape the blade. Master the craft.";
+const MOTTO = "craft rapidly, keburu diangkat saber.";
 const BIO =
   "Pengembang web & mobile yang senang meracik pengalaman interaktif — dari dashboard smart home berbasis IoT hingga scene 3D di browser. Tertarik pada detail kecil yang membuat sebuah karya terasa hidup.";
 
