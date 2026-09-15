@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useRef } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import Backdrop from "./components/Backdrop";
 import Scene from "./components/Scene";
 import Profile from "./components/Profile";
@@ -11,9 +11,7 @@ export default function App() {
   const torchRef = useRef(null);
   // Posisi kursor mouse (normalized device coordinates, -1..1) dihitung
   // manual dari window.innerWidth/innerHeight — tidak bergantung pada
-  // sistem event bawaan Three.js, jadi tetap akurat walau halaman panjang
-  // dan bisa di-scroll (posisi tidak lagi dihitung relatif ke tinggi
-  // seluruh dokumen, melainkan relatif ke layar yang sedang terlihat).
+  // sistem event bawaan Three.js, jadi tetap akurat walau halaman panjang.
   const pointerRef = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
@@ -50,20 +48,27 @@ export default function App() {
 
   return (
     <>
-      <div className="stage">
-        <Backdrop torchRef={torchRef} />
+      <div className="stage" id="hero">
+        {/* User Request 3: Navbar kecil di tengah atas section 1 (display tidak fixed) */}
+        <header className="hero-nav">
+          <nav className="hero-nav-pill">
+            <a href="#hero" className="nav-link">Home</a>
+            <a href="#about" className="nav-link">Profile</a>
+            <a href="#story" className="nav-link">Story</a>
+            <a href="#projects" className="nav-link">Projects</a>
+          </nav>
+        </header>
+
+        <Backdrop />
 
         <div className="hero-text">
           <span className="hero-line" aria-hidden="true" />
           <h1 className="hero-headline">Let the sword bring enlightenment.</h1>
-
         </div>
 
         <div className="hud">
           <p className="kanji">木刀</p>
-          {/* <p className="desc">Gerakkan kursor — pedang kayu akan mengikuti dengan lenturnya sendiri.</p> */}
         </div>
-        {/* <div className="mark">DOJO · DUSK</div> */}
 
         <a href="#about" className="scroll-cue">
           <span>.</span>
@@ -85,7 +90,22 @@ export default function App() {
       </Suspense>
 
       <div className="cursor-dot" ref={cursorRef} />
+
+      {/* Floating Action Controls di Kanan Bawah */}
+      {/* Tombol Arrow Ke Atas untuk Menavigasi ke Section Pertama */}
+      <div className="floating-controls">
+        <button
+          type="button"
+          className="float-btn top-btn"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          aria-label="Navigasi ke Section Pertama"
+          title="Kembali ke atas (Section 1)"
+        >
+          <svg viewBox="0 0 24 24" className="ctrl-icon">
+            <path d="M12 4l-8 8h5v8h6v-8h5z" fill="currentColor" />
+          </svg>
+        </button>
+      </div>
     </>
   );
 }
-

@@ -141,12 +141,12 @@ export default function Projects() {
 
       {/* Header Section Projects */}
       <div className="projects-header">
-        <span className="profile-divider" aria-hidden="true">
+        {/* <span className="profile-divider" aria-hidden="true">
           开源 · REPOSITORIES
-        </span>
+        </span> */}
         <h2 className="projects-title">GitHub Portfolio</h2>
         <p className="projects-subtitle">
-          Repositori proyek terbuka yang selalu ter-update otomatis dari akun GitHub{" "}
+          {" "}
           <a
             href={`https://github.com/${GITHUB_USERNAME}`}
             target="_blank"
