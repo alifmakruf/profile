@@ -2,6 +2,8 @@ import { Suspense, useEffect, useRef } from "react";
 import Backdrop from "./components/Backdrop";
 import Scene from "./components/Scene";
 import Profile from "./components/Profile";
+import Story from "./components/Story";
+import Projects from "./components/Projects";
 
 export default function App() {
   const cursorRef = useRef(null);
@@ -28,6 +30,12 @@ export default function App() {
       const { x, y } = getXY(e);
       if (cursorRef.current) {
         cursorRef.current.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      }
+      const hl = document.querySelector(".hero-headline");
+      if (hl) {
+        const rect = hl.getBoundingClientRect();
+        hl.style.setProperty("--hl-x", `${x - rect.left}px`);
+        hl.style.setProperty("--hl-y", `${y - rect.top}px`);
       }
       pointerRef.current.x = (x / window.innerWidth) * 2 - 1;
       pointerRef.current.y = -(y / window.innerHeight) * 2 + 1;
@@ -58,16 +66,17 @@ export default function App() {
         {/* <div className="mark">DOJO · DUSK</div> */}
 
         <a href="#about" className="scroll-cue">
-          <span>SCROLL</span>
+          <span>.</span>
           <span className="scroll-chevron" aria-hidden="true" />
         </a>
       </div>
 
-      {/* Gradient jembatan tipis di sambungan section 1 -> 2, supaya transisi
-          warna menyatu halus (tidak terlihat terpotong garis tegas) */}
-      <div className="section-seam" aria-hidden="true" />
-
       <Profile />
+      <Story />
+      <Projects />
+
+      {/* Pendaran cahaya obor emas di belakang bilah pedang (tetap menyala dan menerangi seluruh section) */}
+      <div className="torch-glow" ref={torchRef} />
 
       {/* Pedang dirender di luar .stage sebagai layer tetap (fixed) yang menutupi
           seluruh halaman, sehingga tetap mengikuti kursor di section manapun. */}

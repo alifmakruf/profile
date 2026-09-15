@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { ContactShadows, Sparkles } from "@react-three/drei";
 import Sword from "./Sword";
+import FallingSword from "./FallingSword";
 
 export default function Scene({ torchRef, pointerRef }) {
   // Deteksi layar kecil (HP) supaya bisa menurunkan beban render 3D —
@@ -32,7 +33,11 @@ export default function Scene({ torchRef, pointerRef }) {
       <directionalLight position={[4, 5, 4]} intensity={1.0} color={"#fde68a"} />
       <directionalLight position={[-4, -2, 2]} intensity={0.35} color={"#708d96"} />
 
+      {/* Pedang 3D Utama yang mengikuti kursor mouse */}
       <Sword torchRef={torchRef} pointerRef={pointerRef} />
+
+      {/* Pedang-pedang 3D Jatuh dari langit dari model woodensword.glb */}
+      <FallingSword />
 
       {/* Partikel debu emas mengambang halus — dikurangi di HP untuk performa */}
       <Sparkles

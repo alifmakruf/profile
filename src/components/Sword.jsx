@@ -295,6 +295,13 @@ export default function Sword({ torchRef, pointerRef }) {
       const screenX = (pos.current.x / (viewport.width / 2)) * (size.width / 2) + size.width / 2;
       const screenY = -(pos.current.y / (viewport.height / 2)) * (size.height / 2) + size.height / 2;
       torchRef.current.style.transform = `translate3d(${screenX}px, ${screenY}px, 0)`;
+
+      const hl = document.querySelector(".hero-headline");
+      if (hl) {
+        const rect = hl.getBoundingClientRect();
+        hl.style.setProperty("--hl-x", `${screenX - rect.left}px`);
+        hl.style.setProperty("--hl-y", `${screenY - rect.top}px`);
+      }
     }
 
     // Arah orientasi pedang: searah kecepatan saat bergerak, atau tangen lingkaran saat berputar mengelilingi kursor

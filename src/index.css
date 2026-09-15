@@ -62,11 +62,12 @@ body {
   position: absolute;
   inset: 0;
   z-index: 0;
+  /* Gradien diselaraskan hingga #05070c di bagian bawah agar menyatu sempurna dengan section profile */
   background: linear-gradient(180deg,
-      #060810 0%,
-      #0e1422 35%,
-      #161e30 65%,
-      #201b26 100%);
+      #020408 0%,
+      #070b14 35%,
+      #0e1422 65%,
+      #05070c 100%);
 }
 
 .parallax-layer {
@@ -132,7 +133,7 @@ body {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(ellipse at center, transparent 32%, rgba(4, 6, 10, 0.8) 100%);
+  background: radial-gradient(ellipse at center, transparent 25%, rgba(2, 4, 8, 0.9) 100%);
 }
 
 /* ---------- torch glow: pendaran lembut cahaya emas latar belakang dari pedang ---------- */
@@ -141,20 +142,90 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  width: 240px;
-  height: 240px;
-  margin: -120px 0 0 -120px;
+  width: 280px;
+  height: 280px;
+  margin: -140px 0 0 -140px;
   border-radius: 50%;
   background: radial-gradient(circle,
-      rgba(251, 191, 36, 0.32) 0%,
-      rgba(245, 158, 11, 0.15) 35%,
-      rgba(217, 119, 6, 0.03) 60%,
-      rgba(180, 83, 9, 0) 78%);
-  filter: blur(14px);
+      rgba(251, 191, 36, 0.42) 0%,
+      rgba(245, 158, 11, 0.22) 35%,
+      rgba(217, 119, 6, 0.06) 60%,
+      rgba(180, 83, 9, 0) 80%);
+  filter: blur(16px);
   mix-blend-mode: screen;
   pointer-events: none;
   will-change: transform;
+  z-index: 45; /* Tetap berada di atas seluruh section latar belakang & kartu agar selalu menerangi objek di bawah pedang */
+}
+
+/* ---------- meteor pedang jatuh (shooting star) dari kanan-atas ---------- */
+
+.meteor-field {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
   z-index: 1;
+}
+
+.meteor {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  animation: meteorFall var(--meteor-duration) linear var(--meteor-delay) infinite;
+}
+
+/* Rotasi + skala dipisah ke elemen anak supaya tidak bentrok dengan
+   translate jarak-jauh pada .meteor (translate parent tetap konsisten
+   berapa pun skala ukurannya) */
+.meteor-visual {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  transform-origin: left center;
+  transform: rotate(-45deg) scale(var(--meteor-scale));
+}
+
+/* Kilau bilah pedang jatuh — tanpa trail, tanpa filter blur (blur + scale
+   kecil sebelumnya memicu artefak/glitch render), glow murni dari box-shadow
+   yang jauh lebih stabil di ukuran kecil manapun. */
+.meteor-head {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 70px;
+  height: 12px;
+  margin-top: -6px;
+  border-radius: 2px 10px 10px 2px;
+  background: linear-gradient(90deg, var(--meteor-color-b), var(--meteor-color-a) 55%, #fffdf0 100%);
+  box-shadow:
+    0 0 14px 3px var(--meteor-color-a),
+    0 0 28px 8px rgba(251, 191, 36, 0.35);
+}
+
+@keyframes meteorFall {
+  0% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+
+  6% {
+    opacity: 0.7;
+  }
+
+  82% {
+    opacity: 0.7;
+  }
+
+  100% {
+    /* vmax dipakai di kedua sumbu supaya sudut jatuhnya tetap konsisten
+       (diagonal kanan-atas ke kiri-bawah) di layar rasio apa pun */
+    transform: translate3d(-130vmax, 130vmax, 0);
+    opacity: 0;
+  }
 }
 
 /* ---------- 3D canvas sits above the backdrop, transparent ---------- */
@@ -162,7 +233,7 @@ body {
 .sword-canvas {
   position: fixed;
   inset: 0;
-  z-index: 2;
+  z-index: 50;
   pointer-events: none;
 }
 
@@ -210,20 +281,20 @@ body {
   letter-spacing: 0.1em;
   line-height: 1.4;
   margin: 0 0 18px;
-  background: linear-gradient(100deg,
-      #92400e 0%,
-      #fbbf24 22%,
-      #fef3c7 40%,
-      #fde047 55%,
-      #b45309 75%,
-      #fbbf24 100%);
-  background-size: 260% auto;
-  background-position: 100% center;
+  /* Latar belakang sorotan cahaya pedang: gelap secara default (#3a2b1c), 
+     dan menyala emas terang (#fef08a, #fbbf24) di titik presisi kursor/pedang relatif terhadap elemen */
+  background-image: radial-gradient(
+    circle 170px at var(--hl-x, -999px) var(--hl-y, -999px),
+    #fef08a 0%,
+    #fbbf24 30%,
+    #d97706 58%,
+    #3a2b1c 88%,
+    #241a10 100%
+  );
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  filter: drop-shadow(0 4px 18px rgba(0, 0, 0, 0.85));
-  animation: shine 7s linear 1.6s infinite;
+  filter: drop-shadow(0 4px 18px rgba(0, 0, 0, 0.95));
 }
 
 @keyframes shine {
@@ -477,8 +548,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(ellipse at 20% 0%, rgba(6, 9, 15, 0.55) 82%, transparent 45%),
-    linear-gradient(180deg, #05070c 0%, #090c14 45%, #0c1119 100%);
+  background: linear-gradient(180deg, #05070c 0%, #090c14 45%, #0c1119 100%);
   overflow: hidden;
   cursor: none;
 }
@@ -801,5 +871,588 @@ body {
 
   .profile-tags {
     justify-content: center;
+  }
+}
+
+/* =====================================================================
+   SECTION 3 — STORY / TIMELINE (Fase Perjalanan)
+   ===================================================================== */
+
+.story-section {
+  position: relative;
+  padding: 120px 8vw 140px;
+  background: linear-gradient(180deg, #0c1119 0%, #090c14 50%, #05070c 100%);
+  overflow: hidden;
+  cursor: none;
+}
+
+.story-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.story-glow {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  width: 500px;
+  height: 500px;
+  margin: -250px 0 0 -250px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(251, 191, 36, 0.08) 0%, rgba(245, 158, 11, 0.03) 45%, transparent 75%);
+  filter: blur(30px);
+}
+
+.story-header {
+  text-align: center;
+  margin-bottom: 64px;
+  position: relative;
+  z-index: 1;
+}
+
+.story-main-title {
+  font-family: "Cinzel", "Zen Antique", serif;
+  font-size: clamp(24px, 3vw, 36px);
+  color: var(--gold-light);
+  margin: 16px 0 0;
+  letter-spacing: 0.06em;
+  text-shadow: 0 0 20px rgba(251, 191, 36, 0.25);
+}
+
+.story-timeline {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  z-index: 1;
+}
+
+/* Garis lengkung emas menyambung antar kartu (Curved Connecting Line) */
+.story-curve-line {
+  position: absolute;
+  left: 20px;
+  top: 10px;
+  bottom: 10px;
+  width: 40px;
+  height: calc(100% - 20px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+@media (min-width: 768px) {
+  .story-curve-line {
+    left: 50%;
+    transform: translateX(-50%);
+    width: 280px;
+  }
+}
+
+.story-card {
+  position: relative;
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.story-card.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.story-node-dot {
+  position: absolute;
+  left: 20px;
+  top: 24px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fbbf24;
+  border: 3px solid #090c14;
+  box-shadow: 0 0 12px rgba(251, 191, 36, 0.8);
+  z-index: 2;
+}
+
+.story-card-content {
+  margin-left: 64px;
+  background: rgba(15, 20, 32, 0.65);
+  border: 1px solid rgba(251, 191, 36, 0.18);
+  border-radius: 8px;
+  padding: 24px 28px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.story-card-content:hover {
+  border-color: rgba(251, 191, 36, 0.45);
+  box-shadow: 0 16px 40px rgba(251, 191, 36, 0.15);
+}
+
+@media (min-width: 768px) {
+  .story-line-spine {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .story-node-dot {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .story-card:nth-child(even) .story-card-content {
+    margin-left: 0;
+    margin-right: calc(50% + 32px);
+    text-align: right;
+  }
+
+  .story-card:nth-child(odd) .story-card-content {
+    margin-left: calc(50% + 32px);
+    text-align: left;
+  }
+}
+
+.story-phase-tag {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  color: var(--gold-accent);
+  opacity: 0.85;
+}
+
+.story-card-title {
+  font-family: "Cinzel", "Zen Antique", serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 6px 0 2px;
+}
+
+.story-card-subtitle {
+  font-family: "Zen Antique", serif;
+  font-size: 13px;
+  font-style: italic;
+  color: var(--gold-accent);
+  margin: 0 0 12px;
+  opacity: 0.9;
+}
+
+.story-card-desc {
+  font-size: 13.5px;
+  line-height: 1.8;
+  color: var(--ink-soft);
+  margin: 0;
+  opacity: 0.88;
+}
+
+.story-card.coming-soon .story-card-content {
+  border-style: dashed;
+  opacity: 0.75;
+}
+
+@media (max-width: 640px) {
+  .story-section {
+    cursor: auto;
+  }
+}
+
+/* =====================================================================
+   SECTION 4 — PROJECTS / GITHUB REPOSITORIES (Bingkai Cavern / Stalaktit)
+   ===================================================================== */
+
+.projects-section {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 110px 8vw 90px;
+  background: #05070c; /* Warna sama persis dengan akhir Section 3 (#05070c), menyatu tanpa garis batas */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  cursor: none;
+}
+
+/* 4 Lapisan Siluet Gua / Cavern Parallax Sesuai Desain Vektor Asli section-4.svg */
+.cavern-backdrop-container {
+  position: absolute;
+  inset: -4% -4%;
+  width: 108%;
+  height: 108%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+/* Penanganan Responsif: Pada Tablet & HP, buat backdrop sticky pada viewport (100vh)
+   sehingga skala vektor gua tidak membesar/terpotong secara berlebihan saat grid kartu memanjang */
+@media (max-width: 900px) {
+  .cavern-backdrop-container {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    margin-bottom: -100vh;
+    margin-bottom: -100dvh;
+  }
+}
+
+.cavern-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  will-change: transform;
+}
+
+.cavern-full-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.cavern-l1 {
+  z-index: 1;
+}
+
+.cavern-l2 {
+  z-index: 2;
+}
+
+.cavern-l3 {
+  z-index: 3;
+}
+
+.cavern-l4 {
+  z-index: 4;
+}
+
+.projects-header {
+  text-align: center;
+  margin-bottom: 56px;
+  position: relative;
+  z-index: 10;
+}
+
+.projects-title {
+  font-family: "Cinzel", "Zen Antique", serif;
+  font-size: clamp(26px, 3.2vw, 40px);
+  color: var(--gold-light);
+  margin: 16px 0 8px;
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 24px rgba(251, 191, 36, 0.3);
+}
+
+.projects-subtitle {
+  font-size: 14px;
+  color: var(--ink-soft);
+  opacity: 0.85;
+  margin: 0 auto 28px;
+  max-width: 480px;
+}
+
+.github-user-link {
+  color: var(--gold-accent);
+  text-decoration: none;
+  font-weight: 600;
+  border-bottom: 1px dashed var(--gold-accent);
+}
+
+.github-user-link:hover {
+  color: var(--gold-light);
+  border-bottom-style: solid;
+}
+
+/* Filter Bar */
+.projects-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.filter-btn {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
+  padding: 6px 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(251, 191, 36, 0.2);
+  background: rgba(15, 22, 36, 0.6);
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+  border-color: var(--gold-accent);
+  background: rgba(251, 191, 36, 0.15);
+  color: var(--gold-light);
+  box-shadow: 0 0 14px rgba(251, 191, 36, 0.25);
+}
+
+/* Projects Grid (Maksimal 3 Card Sebaris di Desktop) */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 10;
+  transition: transform 0.25s ease;
+}
+
+/* Animasi Muncul Berurutan & Efek Bounce dari Bawah */
+@keyframes projectCardBounceIn {
+  0% {
+    opacity: 0;
+    transform: translateY(48px) scale(0.92);
+  }
+  65% {
+    opacity: 1;
+    transform: translateY(-8px) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.project-card {
+  background: rgba(14, 20, 32, 0.75);
+  border: 1px solid rgba(251, 191, 36, 0.2);
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  animation: projectCardBounceIn 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  transition: border-color 0.3s ease,
+              box-shadow 0.3s ease,
+              transform 0.3s ease;
+}
+
+/* Transisi Bounce Out saat berganti halaman (Next / Prev) */
+.projects-grid.page-exit .project-card {
+  opacity: 0;
+  transform: translateY(32px) scale(0.92);
+  transition: opacity 0.22s ease, transform 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.project-card:hover {
+  border-color: rgba(251, 191, 36, 0.55);
+  transform: translateY(-6px) scale(1.015);
+  box-shadow: 0 20px 45px rgba(251, 191, 36, 0.22);
+}
+
+.project-card-badge {
+  align-self: flex-start;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold-accent);
+  background: rgba(251, 191, 36, 0.1);
+  padding: 3px 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(251, 191, 36, 0.25);
+  margin-bottom: 14px;
+}
+
+.project-card-title {
+  font-family: "Cinzel", "Zen Antique", serif;
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 10px;
+  letter-spacing: 0.03em;
+}
+
+.project-card-desc {
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--ink-soft);
+  opacity: 0.88;
+  flex: 1 1 auto;
+  margin: 0 0 22px;
+}
+
+.project-card-footer {
+  display: flex;
+  gap: 12px;
+  margin-top: auto;
+}
+
+.project-card-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  padding: 8px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.project-card-btn.primary {
+  background: rgba(251, 191, 36, 0.15);
+  border: 1px solid rgba(251, 191, 36, 0.35);
+  color: var(--gold-light);
+}
+
+.project-card-btn.primary:hover {
+  background: var(--gold-accent);
+  color: #090c14;
+  box-shadow: 0 0 16px rgba(251, 191, 36, 0.5);
+}
+
+.project-card-btn.secondary {
+  background: transparent;
+  border: 1px solid rgba(203, 213, 225, 0.25);
+  color: var(--ink-soft);
+}
+
+.project-card-btn.secondary:hover {
+  border-color: var(--gold-accent);
+  color: var(--gold-accent);
+}
+
+.btn-icon {
+  width: 14px;
+  height: 14px;
+}
+
+.projects-loading,
+.projects-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px;
+  color: var(--ink-soft);
+}
+
+.loading-spinner {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border: 2px solid rgba(251, 191, 36, 0.2);
+  border-top-color: var(--gold-accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-bottom: 12px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Kontrol Navigasi Pagination */
+.projects-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 42px;
+  position: relative;
+  z-index: 10;
+}
+
+.pagination-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
+  padding: 8px 18px;
+  border-radius: 20px;
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  background: rgba(15, 22, 36, 0.7);
+  color: var(--gold-light);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  backdrop-filter: blur(8px);
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background: rgba(251, 191, 36, 0.2);
+  border-color: var(--gold-accent);
+  box-shadow: 0 0 16px rgba(251, 191, 36, 0.35);
+  transform: translateY(-2px);
+}
+
+.pagination-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  border-color: rgba(255, 255, 255, 0.1);
+  color: var(--ink-soft);
+}
+
+.page-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.pagination-pills {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pagination-pill {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(251, 191, 36, 0.2);
+  background: rgba(15, 22, 36, 0.6);
+  color: var(--ink-soft);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.pagination-pill:hover:not(.active) {
+  border-color: rgba(251, 191, 36, 0.5);
+  color: var(--gold-light);
+  background: rgba(251, 191, 36, 0.1);
+}
+
+.pagination-pill.active {
+  background: var(--gold-accent);
+  color: #090c14;
+  border-color: var(--gold-accent);
+  font-weight: 700;
+  box-shadow: 0 0 14px rgba(251, 191, 36, 0.45);
+  transform: scale(1.08);
+}
+
+@media (max-width: 900px) {
+  .projects-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .projects-section {
+    cursor: auto;
+    padding: 100px 5vw 120px;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
   }
 }

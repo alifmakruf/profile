@@ -204,9 +204,6 @@ export default function Backdrop({ torchRef }) {
         </svg>
       </div>
 
-      {/* Pendaran cahaya obor emas yang menerangi latar belakang gelap saat pedang lewat */}
-      <div className="torch-glow" ref={torchRef} />
-
       {/* Kabut Mengambang Lembah Malam (Dark Valley Mist) */}
       <div className="fog-band dark-valley-mist" ref={mistRef} />
 
