@@ -144,7 +144,7 @@ export default function Projects() {
         {/* <span className="profile-divider" aria-hidden="true">
           开源 · REPOSITORIES
         </span> */}
-        <h2 className="projects-title">GitHub Portfolio</h2>
+        <h2 className="projects-title">GitHub Project</h2>
         <p className="projects-subtitle">
           {" "}
           <a

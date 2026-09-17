@@ -15,30 +15,30 @@ import ProfileBackdrop from "./ProfileBackdrop";
  */
 
 const NAME = "Mohammad Firman Alif Ma'ruf";
-const MOTTO = "craft rapidly, keburu diangkat saber.";
+const MOTTO = "Kocok Sebelum Diminum";
 const BIO =
   "Pengembang web & mobile yang senang meracik pengalaman interaktif — dari dashboard smart home berbasis IoT hingga scene 3D di browser. Tertarik pada detail kecil yang membuat sebuah karya terasa hidup.";
 
-const INTERESTS = ["Smart Home & IoT", "3D Web Experience", "Trading & Market Analysis"];
+const INTERESTS = ["Smart Home & IoT", "3D Web Experience", "3D Modeling"];
 const SKILLS = ["React & Vite", "Three.js / React Three Fiber", "IoT & ESP32", "MQTT & Firebase"];
-const OTHER_SKILLS = ["Zustand", "Framer Motion", "UI Motion Design", "REST API Integration"];
+const OTHER_SKILLS = ["Wiring Design", "3D Design", "UI Design"];
 
 // Titik-titik debu emas melayang di latar belakang section, senada dengan
 // Sparkles pada scene 3D di hero — dibuat statis (bukan random) supaya
 // tidak berubah-ubah setiap kali komponen re-render.
 const DUST = [
-  { x: 8, y: 20, size: 3, delay: 0, duration: 7 },
-  { x: 14, y: 62, size: 2, delay: 1.2, duration: 8.5 },
-  { x: 22, y: 40, size: 2.4, delay: 2.4, duration: 6.5 },
-  { x: 30, y: 78, size: 3.2, delay: 0.6, duration: 9 },
+  { x: 8, y: 20, size: 6, delay: 0, duration: 7 },
+  { x: 14, y: 62, size: 4, delay: 1.2, duration: 8.5 },
+  { x: 22, y: 40, size: 4.5, delay: 2.4, duration: 6.5 },
+  { x: 30, y: 78, size: 7.5, delay: 0.6, duration: 9 },
   { x: 40, y: 15, size: 2, delay: 3, duration: 7.5 },
   { x: 55, y: 55, size: 2.6, delay: 1.8, duration: 8 },
-  { x: 66, y: 25, size: 2, delay: 0.3, duration: 6.8 },
-  { x: 74, y: 70, size: 3, delay: 2.1, duration: 9.2 },
-  { x: 84, y: 35, size: 2.2, delay: 1, duration: 7.2 },
-  { x: 92, y: 60, size: 2.8, delay: 2.8, duration: 8.4 },
-  { x: 48, y: 85, size: 2, delay: 0.9, duration: 7.8 },
-  { x: 60, y: 10, size: 2.4, delay: 1.5, duration: 6.9 },
+  { x: 66, y: 25, size: 4, delay: 0.3, duration: 6.8 },
+  { x: 74, y: 70, size: 6.5, delay: 2.1, duration: 9.2 },
+  { x: 84, y: 35, size: 3.4, delay: 1, duration: 7.2 },
+  { x: 92, y: 60, size: 5.2, delay: 2.8, duration: 8.4 },
+  { x: 48, y: 85, size: 2.1, delay: 0.9, duration: 7.8 },
+  { x: 60, y: 10, size: 3.9, delay: 1.5, duration: 6.9 },
 ];
 
 export default function Profile() {
@@ -121,7 +121,7 @@ export default function Profile() {
       <div className="grain" />
 
       <span className="profile-divider" aria-hidden="true">
-        关于我
+        About.ME
       </span>
 
       <div className={`profile-frame${inView ? " in-view" : ""}`} ref={frameRef}>
@@ -143,13 +143,13 @@ export default function Profile() {
         </div>
 
         <div className="profile-info">
-          <p className="profile-kicker">凡人 · MORTAL</p>
+          <p className="profile-kicker">MAHASISWA · POLITEKNIK NEGERI JEMBER</p>
           <h2 className="profile-name">{NAME}</h2>
           <p className="profile-motto">&ldquo;{MOTTO}&rdquo;</p>
           <p className="profile-bio">{BIO}</p>
 
           <div className="profile-block">
-            <h3 className="profile-block-title">Minat</h3>
+            <h3 className="profile-block-title">Interesting With</h3>
             <ul className="profile-tags">
               {INTERESTS.map((item) => (
                 <li key={item}>{item}</li>
@@ -159,7 +159,7 @@ export default function Profile() {
 
           <div className="profile-columns">
             <div className="profile-block">
-              <h3 className="profile-block-title">Skill</h3>
+              <h3 className="profile-block-title">Main Skill</h3>
               <ul className="profile-tags">
                 {SKILLS.map((item) => (
                   <li key={item}>{item}</li>
@@ -168,7 +168,7 @@ export default function Profile() {
             </div>
 
             <div className="profile-block">
-              <h3 className="profile-block-title">Another Skill</h3>
+              <h3 className="profile-block-title">Side Skill</h3>
               <ul className="profile-tags">
                 {OTHER_SKILLS.map((item) => (
                   <li key={item}>{item}</li>

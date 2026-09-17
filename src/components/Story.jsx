@@ -10,28 +10,28 @@ import { useEffect, useRef, useState } from "react";
 const STORY_STEPS = [
   {
     id: 1,
-    phase: "PHASE 01",
-    title: "Pendidikan Sekolah Dasar & Menengah",
+    phase: "Early",
+    title: "Pendidikan Sekolah Menengah di SMPN 2 Krembung",
     subtitle: "Pondasi & Karakter",
-    desc: "Membangun fondasi logika, karakter, dan rasa ingin tahu awal terhadap dunia teknologi serta ilmu pengetahuan.",
+    desc: "Membangun fondasi logika, karakter, dan rasa ingin tahu",
   },
   {
     id: 2,
-    phase: "PHASE 02",
-    title: "Kompetensi Keahlian (SMK)",
+    phase: "Mid",
+    title: "Kompetensi Keahlian di SMKN 1 Pungging",
     subtitle: "Kejuruan & Praktik",
-    desc: "Mengasah keahlian dasar pemrograman, logika sistem, dan pengerjaan proyek perangkat lunak secara hands-on.",
+    desc: "Mengasah keahlian dasar pemrograman, logika sistem, dan pengerjaan proyek Ketenagalistrikan serta awal mula membangun sebuah website",
   },
   {
     id: 3,
-    phase: "PHASE 03",
-    title: "Perguruan Tinggi / Kuliah",
+    phase: "Latest",
+    title: "Perguruan Tinggi di Politeknik Negeri Jember",
     subtitle: "Eksplorasi & Spesialisasi",
-    desc: "Mengembangkan pemahaman akademik lebih dalam, meracik pengalaman web 3D interaktif, IoT, dan aplikasi modern.",
+    desc: "Mengembangkan pemahaman akademik lebih dalam, membangun pengalaman web 3D interaktif, IoT, dan aplikasi modern.",
   },
   {
     id: 4,
-    phase: "PHASE 04",
+    phase: "Future",
     title: "Dunia Kerja",
     subtitle: "Coming Soon",
     desc: "Siap melangkah ke dalam industri profesional dan memberikan kontribusi nyata melalui karya digital yang bermakna.",
@@ -163,9 +163,9 @@ export default function Story() {
       {/* Ornamen Pembatas Emas */}
       <div className="story-header">
         <span className="profile-divider" aria-hidden="true">
-          历程 · STORY
+          · STORY
         </span>
-        <h2 className="story-main-title">Fase Perjalanan</h2>
+        <h2 className="story-main-title">Education</h2>
       </div>
 
       {/* Timeline Bertahap 4 Fase */}

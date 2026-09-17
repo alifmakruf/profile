@@ -69,8 +69,8 @@ export default function Backdrop({ torchRef }) {
         <svg viewBox="0 0 1600 700" preserveAspectRatio="xMidYMax slice" className="backdrop-svg">
           <defs>
             <linearGradient id="darkCloudGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#1e2436" stopOpacity="0.75" />
-              <stop offset="60%" stopColor="#141824" stopOpacity="0.45" />
+              <stop offset="0%" stopColor="#6978ac91" stopOpacity="0.75" />
+              <stop offset="70%" stopColor="#141824" stopOpacity="0.45" />
               <stop offset="100%" stopColor="#0c101a" stopOpacity="0" />
             </linearGradient>
           </defs>
@@ -84,7 +84,7 @@ export default function Backdrop({ torchRef }) {
             stroke="#eab308"
             strokeWidth="1.2"
             fill="none"
-            opacity="0.55"
+            opacity="0.75"
           />
           <path
             d="M300,260 C420,220 540,240 680,200 C820,170 960,230 1120,180"
@@ -101,15 +101,15 @@ export default function Backdrop({ torchRef }) {
         <svg viewBox="0 0 1600 700" preserveAspectRatio="xMidYMax slice" className="backdrop-svg">
           <defs>
             <linearGradient id="darkGoldMtnGrad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="#664627" />
-              <stop offset="40%" stopColor="#452c16" />
+              <stop offset="0%" stopColor="#c59121ff" />
+              <stop offset="40%" stopColor="#aa790eff" />
               <stop offset="80%" stopColor="#2a180b" />
               <stop offset="100%" stopColor="#141c28" />
             </linearGradient>
             <linearGradient id="darkSlateFarGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#253545" />
-              <stop offset="50%" stopColor="#192430" />
-              <stop offset="100%" stopColor="#0f1620" />
+              <stop offset="0%" stopColor="#1b4974ff" />
+              <stop offset="50%" stopColor="#193e66ff" />
+              <stop offset="100%" stopColor="#b3d2fdff" />
             </linearGradient>
           </defs>
 
@@ -132,7 +132,7 @@ export default function Backdrop({ torchRef }) {
             stroke="#fbbf24"
             strokeWidth="1.2"
             fill="none"
-            opacity="0.65"
+            opacity="0.95"
           />
 
           {/* Pegunungan slate malam di kanan */}
@@ -156,14 +156,14 @@ export default function Backdrop({ torchRef }) {
         <svg viewBox="0 0 1600 700" preserveAspectRatio="xMidYMax slice" className="backdrop-svg">
           <defs>
             <linearGradient id="midDarkSlateGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#1c2d3a" />
-              <stop offset="45%" stopColor="#121e27" />
-              <stop offset="100%" stopColor="#0a1218" />
+              <stop offset="0%" stopColor="#062e2eff" />
+              <stop offset="45%" stopColor="#0d85a3ff" />
+              <stop offset="100%" stopColor="#93e0e5ff" />
             </linearGradient>
             <linearGradient id="midDarkGoldGrad" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stopColor="#5c3c1e" />
-              <stop offset="50%" stopColor="#7a5127" />
-              <stop offset="100%" stopColor="#3b230d" />
+              <stop offset="0%" stopColor="#b88311ff" />
+              <stop offset="50%" stopColor="#88470bff" />
+              <stop offset="100%" stopColor="#251506ff" />
             </linearGradient>
           </defs>
 

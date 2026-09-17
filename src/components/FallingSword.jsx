@@ -10,7 +10,7 @@ const MODEL_URL = "/models/woodensword.glb";
 // - TARGET_PIXEL_SIZE (number): Ukuran target tampilan pedang jatuh di layar (100px sesuai aturan user rule 2)
 // - METEOR_COUNT (number): Jumlah pedang 3D yang meluncur bersamaan dari langit
 const TARGET_PIXEL_SIZE = 30;
-const METEOR_COUNT = 1;
+const METEOR_COUNT = 2;
 
 // Parameter Fungsi randomBetween:
 // - min (number): Batas nilai minimum
@@ -71,7 +71,7 @@ function SingleFallingSword({ index, baseModel, modelLength }) {
 
   // Ref posisi 3D & kecepatan meluncur (bebas dari glitch React rerender)
   const pos = useRef(new THREE.Vector3());
-  const speed = useRef(randomBetween(4.2, 6.8));
+  const speed = useRef(randomBetween(4.2, 10.8));
 
   // Buffer riwayat posisi & rotasi untuk bayangan Terraprism
   const ghostHistory = useRef(
