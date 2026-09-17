@@ -7,9 +7,11 @@ import * as THREE from "three";
 const MODEL_URL = "/models/woodensword.glb";
 
 // Parameter Konfigurasi Pedang Jatuh 3D:
-// - TARGET_PIXEL_SIZE (number): Ukuran target tampilan pedang jatuh di layar (100px sesuai aturan user rule 2)
+// - MIN_PIXEL_SIZE (number): Batas minimum ukuran acak pedang jatuh dalam piksel
+// - MAX_PIXEL_SIZE (number): Batas maksimum ukuran acak pedang jatuh dalam piksel
 // - METEOR_COUNT (number): Jumlah pedang 3D yang meluncur bersamaan dari langit
-const TARGET_PIXEL_SIZE = 30;
+const MIN_PIXEL_SIZE = 25;
+const MAX_PIXEL_SIZE = 60;
 const METEOR_COUNT = 2;
 
 // Parameter Fungsi randomBetween:
@@ -25,7 +27,9 @@ function randomBetween(min, max) {
 // - index (number): Indeks nomor urut pedang jatuh
 // - baseModel (THREE.Group): Model 3D dasar yang sudah diolah materialnya
 // - modelLength (number): Panjang ukuran asli model 3D pedang
-function SingleFallingSword({ index, baseModel, modelLength }) {
+// - minSize (number): Batas minimum ukuran acak pedang dalam piksel
+// - maxSize (number): Batas maksimum ukuran acak pedang dalam piksel
+function SingleFallingSword({ index, baseModel, modelLength, minSize = MIN_PIXEL_SIZE, maxSize = MAX_PIXEL_SIZE }) {
   const { viewport, size } = useThree();
   const groupRef = useRef(null);
   const tipRef = useRef(null);
@@ -33,12 +37,16 @@ function SingleFallingSword({ index, baseModel, modelLength }) {
   // Skala piksel ke dunia (units per pixel)
   const unitsPerPixel = viewport.width / size.width;
 
-  // Parameter Skala (User Rule 2: Ukuran pedang 100px):
-  // - scaleFactor (number): Pengali skala agar panjang pedang di layar persis 100px
+  // Parameter Ukuran Acak Pedang:
+  // - targetPixelSize (number): Ukuran acak pedang di layar dalam piksel
+  const targetPixelSize = useMemo(() => randomBetween(minSize, maxSize), [minSize, maxSize]);
+
+  // Parameter Skala:
+  // - scaleFactor (number): Pengali skala agar panjang pedang di layar sesuai targetPixelSize
   const scaleFactor = useMemo(() => {
-    const desiredWorldLength = TARGET_PIXEL_SIZE * unitsPerPixel;
+    const desiredWorldLength = targetPixelSize * unitsPerPixel;
     return desiredWorldLength / modelLength;
-  }, [modelLength, unitsPerPixel]);
+  }, [modelLength, unitsPerPixel, targetPixelSize]);
 
   // Jarak titik ujung bilah untuk jangkar trail (dihitung presisi berdasarkan panjang model)
   const tipDistance = (modelLength * 0.52) * scaleFactor;
@@ -71,7 +79,7 @@ function SingleFallingSword({ index, baseModel, modelLength }) {
 
   // Ref posisi 3D & kecepatan meluncur (bebas dari glitch React rerender)
   const pos = useRef(new THREE.Vector3());
-  const speed = useRef(randomBetween(4.2, 10.8));
+  const speed = useRef(randomBetween(1.2, 10.8));
 
   // Buffer riwayat posisi & rotasi untuk bayangan Terraprism
   const ghostHistory = useRef(
@@ -192,7 +200,10 @@ function SingleFallingSword({ index, baseModel, modelLength }) {
 }
 
 // Komponen Utama FallingSword (Pedang Jatuh 3D)
-export default function FallingSword() {
+// Parameter FallingSword:
+// - minSize (number): Batas minimum ukuran acak pedang dalam piksel (default: MIN_PIXEL_SIZE)
+// - maxSize (number): Batas maksimum ukuran acak pedang dalam piksel (default: MAX_PIXEL_SIZE)
+export default function FallingSword({ minSize = MIN_PIXEL_SIZE, maxSize = MAX_PIXEL_SIZE }) {
   const { scene } = useGLTF(MODEL_URL);
 
   // Proses & siapkan model 3D dasar (User Rule 1: Mesh bilah dinamai 'bilah')
@@ -271,6 +282,8 @@ export default function FallingSword() {
           index={i}
           baseModel={baseModel}
           modelLength={modelLength}
+          minSize={minSize}
+          maxSize={maxSize}
         />
       ))}
     </group>

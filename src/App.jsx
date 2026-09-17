@@ -67,7 +67,7 @@ export default function App() {
         </div>
 
         <div className="hud">
-          <p className="kanji">木刀</p>
+          <p className="kanji">Personal Profile</p>
         </div>
 
         <a href="#about" className="scroll-cue">

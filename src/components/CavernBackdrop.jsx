@@ -90,10 +90,10 @@ export default function CavernBackdrop({ active = true }) {
 
             {/* Cahaya Emas Inti Lubang Gua (Meniru Pendaran Emas Obor & Bulan Section 1) */}
             <radialGradient id="cavernGoldSkyGlow" cx="48%" cy="46%" r="50%">
-              <stop offset="0%" stopColor="#158ab8ff" stopOpacity="0.58" />
-              <stop offset="18%" stopColor="#096194ff" stopOpacity="0.88" />
-              <stop offset="42%" stopColor="#0a5d83ff" stopOpacity="0.65" />
-              <stop offset="70%" stopColor="#07475aff" stopOpacity="0.35" />
+              <stop offset="0%" stopColor="#0a5370ff" stopOpacity="0.58" />
+              <stop offset="18%" stopColor="#063a58ff" stopOpacity="0.88" />
+              <stop offset="42%" stopColor="#07354bff" stopOpacity="0.65" />
+              <stop offset="70%" stopColor="#043241ff" stopOpacity="0.35" />
               <stop offset="90%" stopColor="#1e293b" stopOpacity="0.15" />
               <stop offset="100%" stopColor="#0a121e" stopOpacity="0" />
             </radialGradient>
@@ -114,7 +114,7 @@ export default function CavernBackdrop({ active = true }) {
 
           {/* Partikel Debu Emas (Kinpaku) Berkilauan di Depan Cahaya Gua */}
           {[
-            [720, 520, 2.4], [880, 480, 1.8], [1050, 560, 2.6], [1220, 490, 2.2],
+            [720, 520, 4.4], [880, 480, 1.8], [1050, 560, 2.6], [1220, 490, 2.2],
             [1380, 540, 2.8], [1520, 470, 1.9], [1680, 530, 2.5], [980, 640, 2.0],
             [1310, 620, 2.4], [1160, 430, 2.2], [820, 600, 1.6], [1440, 440, 1.8],
           ].map(([gx, gy, gr], i) => (

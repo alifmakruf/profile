@@ -403,8 +403,8 @@ body {
 
 .hud .kanji {
   font-family: "Zen Antique", serif;
-  font-size: 30px;
-  letter-spacing: 0.16em;
+  font-size: 20px;
+  letter-spacing: 0.05em;
   color: var(--gold-accent);
   margin: 0 0 4px;
   text-shadow: 0 0 16px rgba(251, 191, 36, 0.6);
