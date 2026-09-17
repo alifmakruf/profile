@@ -10,8 +10,8 @@ const MODEL_URL = "/models/woodensword.glb";
 // - MIN_PIXEL_SIZE (number): Batas minimum ukuran acak pedang jatuh dalam piksel
 // - MAX_PIXEL_SIZE (number): Batas maksimum ukuran acak pedang jatuh dalam piksel
 // - METEOR_COUNT (number): Jumlah pedang 3D yang meluncur bersamaan dari langit
-const MIN_PIXEL_SIZE = 25;
-const MAX_PIXEL_SIZE = 60;
+const MIN_PIXEL_SIZE = 10;
+const MAX_PIXEL_SIZE = 100;
 const METEOR_COUNT = 2;
 
 // Parameter Fungsi randomBetween:

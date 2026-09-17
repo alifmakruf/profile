@@ -7,6 +7,27 @@
   --gold-accent: #fbbf24;
   --gold-light: #fde047;
   color-scheme: dark;
+
+  /* ---------- Section 2 backdrop (section2.svg) — recolorable palette ----------
+     Diselaraskan dengan langit twilight Section 1 (Backdrop.jsx) & langit gua
+     Section 4 (CavernBackdrop.jsx): navy gelap + aksen teal + kastil emas.
+     Ubah nilai di sini saja untuk me-recolor seluruh backdrop Section 2 —
+     tidak perlu menyentuh markup section2.svg / section2Backdrop.js. */
+  --s2-sky-top: #04070d;
+  --s2-sky-bottom: #003c6d;
+  --s2-farhill-top: #004d6b;
+  --s2-farhill-bottom: #001018;
+  --s2-midhill-top: #004244;
+  --s2-midhill-bottom: #000e0f;
+  --s2-innerhill-top: #003747;
+  --s2-innerhill-bottom: #00101a;
+  --s2-gold-a: #0f3141;
+  --s2-gold-b: #031314;
+  /* Frame bawah backdrop = warna awal background Section 3 (.story-section:
+     linear-gradient 180deg #0c1119 -> ...), supaya sambungan antar-section
+     tidak menimbulkan garis batas yang kelihatan. */
+  --s2-fg: #0c1119;
+  --s2-glow: #6d1f00;
 }
 
 * {
@@ -577,6 +598,30 @@ body {
 
 .profile-section .grain {
   position: absolute;
+}
+
+/* Backdrop vektor section2.svg — siluet kastil & perbukitan malam,
+   dipecah 4 lapisan (<g id="s2-layer-*">) untuk efek parallax kedalaman.
+   Warnanya diatur lewat variabel --s2-* di :root (lihat atas), bukan
+   hardcode di sini, supaya tetap recolorable. */
+.section2-backdrop-container {
+  position: absolute;
+  inset: -4% -4%;
+  width: 108%;
+  height: 108%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.section2-full-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.section2-gpu {
+  will-change: transform;
 }
 
 .profile-topline {
